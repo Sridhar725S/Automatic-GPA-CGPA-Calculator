@@ -106,7 +106,7 @@ updateCourses() {
     if (!course.code) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/api/clicks/subject/${course.code}`);
+      const response = await fetch(`https://automatic-gpa-cgpa-calculator.onrender.com/api/clicks/subject/${course.code}`);
       if (response.ok) {
         const data = await response.json();
         course.name = data.name;
@@ -162,7 +162,7 @@ updateSemesters() {
 
   // Automatically open the GPA page
   openPage() {
-    fetch('http://localhost:3000/api/open-url')
+    fetch('https://automatic-gpa-cgpa-calculator.onrender.com/api/open-url')
       .then(response => response.json())
       .then(data => {
         console.log('Page Opened:', data);
@@ -175,14 +175,14 @@ updateSemesters() {
   scrapeData() {
     this.isAutomated = true;
     this.isScrapeDisabled = true;
-    fetch('http://localhost:3000/api/scrape-data')
+    fetch('https://automatic-gpa-cgpa-calculator.onrender.com/api/scrape-data')
       .then(response => response.json())
       .then(data => {
         console.log('Scraped Data:', data);
         this.availableSemesters = data.availableSemesters;
         this.semesterData = data.semesterData;
         // Close the automated tab
-      fetch('http://localhost:3000/api/close-tab')
+      fetch('https://automatic-gpa-cgpa-calculator.onrender.com/api/close-tab')
       .then(() => console.log('Automated tab closed.'))
       .catch(error => console.error('Error closing tab:', error));
 
