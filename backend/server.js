@@ -27,11 +27,9 @@ app.get('/api/open-url', async (req, res) => {
     // Initialize the browser globally
     browser = await puppeteer.launch({
       executablePath: '/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome',
-      headless: true,
-      args: ['--no-sandbox',
-                '--disable-setuid-sandbox'],
-      
-    });
+       headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    })
 
     // Close the default blank tab if it exists
     const pages = await browser.pages();
