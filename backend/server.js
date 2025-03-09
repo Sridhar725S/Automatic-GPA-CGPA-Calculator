@@ -140,9 +140,10 @@ app.get('/api/clicks', async (req, res) => {
 });
 // Serve static files from the Angular build
 // Serve Angular frontend
-app.use(express.static(path.join(__dirname, 'dist/browser')));
+app.use(express.static(path.join(__dirname, '../dist/browser')));
+
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/browser/index.html'));
+    res.sendFile(path.join(__dirname, '../dist/browser/index.html'));
 });
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
