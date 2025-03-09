@@ -139,12 +139,6 @@ app.get('/api/clicks', async (req, res) => {
   }
 });
 // Serve static files from the Angular build
-app.use(express.static(path.join(__dirname, 'frontend/dist/frontend/browser')));
-
-// Redirect all other routes to the index.html
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend/dist/frontend/browser/index.html'));
-});
 
 app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
