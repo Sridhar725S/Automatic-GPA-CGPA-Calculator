@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "postinstall": "npm install puppeteer",
+    "postinstall": "npx puppeteer browsers install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
