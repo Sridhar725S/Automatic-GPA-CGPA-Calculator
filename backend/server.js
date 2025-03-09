@@ -28,7 +28,7 @@ app.get('/api/open-url', async (req, res) => {
     browser = await puppeteer.launch({
        headless: "new",
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        executablePath: puppeteer.executablePath(), 
+        
     })
 
     // Close the default blank tab if it exists
