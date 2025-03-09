@@ -24,13 +24,11 @@ let browser; // Puppeteer browser instance
 // Puppeteer route to open the page
 app.get('/api/open-url', async (req, res) => {
   try {
-      const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download('1095492');
     // Initialize the browser globally
     browser = await puppeteer.launch({
-       executablePath: revisionInfo.executablePath,
-       headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+       headless: "new",
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        executablePath: puppeteer.executablePath(), 
     })
 
     // Close the default blank tab if it exists
