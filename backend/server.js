@@ -138,10 +138,13 @@ app.get('/api/clicks', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
   }
 });
-app.use(express.static(path.join(__dirname, 'frontend/dist/frontend')));
+// Serve static files from the Angular build
+app.use(express.static(path.join(__dirname, 'frontend/dist/frontend/browser')));
 
+// Redirect all other routes to the index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend/dist/frontend/index.html'));
+    res.sendFile(path.join(__dirname, 'frontend/dist/frontend/browser/index.html'));
 });
+
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
