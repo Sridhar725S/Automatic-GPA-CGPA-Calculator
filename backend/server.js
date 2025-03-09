@@ -24,6 +24,7 @@ let browser; // Puppeteer browser instance
 // Puppeteer route to open the page
 app.get('/api/open-url', async (req, res) => {
   try {
+      console.log('Using Chromium path:', puppeteer.executablePath());
     // Initialize the browser globally
     browser = await puppeteer.launch({
        headless: "new",
