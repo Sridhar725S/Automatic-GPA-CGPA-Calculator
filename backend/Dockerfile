@@ -1,22 +1,19 @@
-# Use the official Puppeteer Docker image
+# Use the official Puppeteer image with Chrome
 FROM ghcr.io/puppeteer/puppeteer:latest
 
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json files to the container
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --unsafe-perm
 
 # Copy the rest of the application code
 COPY . .
 
-# Start dbus (optional if needed)
-RUN sudo service dbus start
-
-# Expose the port your server runs on
+# Expose the port your server will run on
 EXPOSE 10000
 
 # Start the server
