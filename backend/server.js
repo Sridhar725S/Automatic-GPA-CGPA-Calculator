@@ -32,7 +32,7 @@ app.get('/api/open-url', async (req, res) => {
                 '--disable-gpu',
                 '--disable-dev-shm-usage',
                 '--single-process'],
-      defaultViewport: null,
+      executablePath: process.env.CHROME_BIN || null 
     });
 
     // Close the default blank tab if it exists
