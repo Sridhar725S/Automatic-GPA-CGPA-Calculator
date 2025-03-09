@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
-
+console.log('Using Chromium path:', puppeteer.executablePath());
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('✅ MongoDB connected'))
     .catch(err => console.error('❌ MongoDB connection error:', err));
