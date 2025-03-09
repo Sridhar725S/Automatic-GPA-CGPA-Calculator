@@ -139,12 +139,11 @@ app.get('/api/clicks', async (req, res) => {
   }
 });
 // Serve static files from the Angular build
-// Serve static files from the Angular build
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
+// Serve Angular frontend
+app.use(express.static(path.join(__dirname, '../frontend/dist/frontend/browser')));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend/dist', 'index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/dist/frontend/browser/index.html'));
 });
-
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
