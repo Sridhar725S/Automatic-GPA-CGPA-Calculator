@@ -1,0 +1,93 @@
+<div>
+  <h1>AUTOMATIC GPA and CGPA Calculator</h1>
+  <!-- Current Date and Time -->
+  <div class="info-container">
+    <div class="info-item">
+        <span class="info-label">Date:</span>
+        <span class="info-value">{{ currentDate | date:'dd/MM/yyyy' }}</span>
+    </div>
+    <div class="info-item">
+        <span class="info-label">Time:</span>
+        <span class="info-value">{{ currentTime }}</span>
+    </div>
+    <div class="info-item">
+        <span class="info-label">GPA Count:</span>
+        <span class="info-value">{{ gpaClicks || 0 }}</span>
+    </div>
+    <div class="info-item">
+        <span class="info-label">CGPA Count:</span>
+        <span class="info-value">{{ cgpaClicks || 0 }}</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">Auto GPA Count:</span>
+      <span class="info-value">{{ agpaClicks || 0 }}</span>
+    </div>
+</div>
+<h2>GPA Calculator</h2>
+  <!-- Semester Selection Dropdown -->
+  <div *ngIf="availableSemesters.length > 0">
+    <label for="semesterSelect">Select Semester:</label>
+    <select id="semesterSelect" [(ngModel)]="selectedSemester" (change)="handleSemesterSelection()">
+      <option value="" disabled>Select a Semester</option>
+      <option *ngFor="let semester of availableSemesters" [value]="semester">
+        Semester {{ semester }}
+      </option>
+    </select>
+  </div>
+  <button (click)="openPage()" *ngIf="!isPageOpened && !isAutomated">Open URL</button>
+  <button disabled *ngIf="isPageOpened && !isAutomated">URL Opened</button>
+
+  <button (click)="scrapeData()" [disabled]="isScrapeDisabled"*ngIf="isPageOpened && !isAutomated">Automate</button>
+  <button disabled *ngIf="isAutomated">Scraping...</button>
+  <label>Number of Subjects:</label>
+  <input type="number" [(ngModel)]="subjectCount" (change)="updateCourses()" />
+
+  <div *ngFor="let course of courses; let i = index">
+    <label>Subject code {{i + 1}}:</label>
+    <input
+      type="text"
+      [(ngModel)]="course.code"
+      (change)="fetchSubjectDetails(course)"
+      placeholder="Subject Code"
+    />
+    <label>Name:</label>
+    <input type="text" [(ngModel)]="course.name" placeholder="Subject Name"  />
+    <label>Credit:</label>
+    <input type="number" [(ngModel)]="course.credits" placeholder="Credits"  />
+    <label>Grade:</label>
+    <select [(ngModel)]="course.grade">
+      <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
+    </select>
+  </div>
+
+  <button (click)="calculateGPA(); trackClick('GPA')">Calculate GPA</button>
+  <p *ngIf="gpa !== null">GPA: {{ gpa.toFixed(3) }}</p>
+
+  <hr />
+  <h2>CGPA Calculator</h2>
+  <label>Number of Semesters:</label>
+  <input type="number" [(ngModel)]="semesterCount" (change)="updateSemesters()" />
+
+  <div *ngFor="let semester of semesters; let i = index">
+    <label>GPA for Semester {{i + 1}}:</label>
+    <input
+      type="number"
+      [(ngModel)]="semester.gpa"
+      placeholder="Semester"
+      step="0.01"
+    />
+    <label>Credits:</label>
+    <input
+      type="number"
+      [(ngModel)]="semester.credits"
+      placeholder="Credits"
+    />
+  </div>
+
+  <button (click)="calculateCGPA(); trackClick('CGPA')">Calculate CGPA</button>
+  <p *ngIf="cgpa !== null">CGPA: {{ cgpa.toFixed(2) }}</p>
+</div>   
+<footer>
+  <p>Have feedback? <a href="https://forms.gle/mhHwFmUm3BuaecN9A" target="_blank">Click here</a></p>
+  <p>Connect on <a href="https://www.linkedin.com/in/sridhar-s-7980b2255/" target="_blank">LinkedIn</a></p>
+</footer>
