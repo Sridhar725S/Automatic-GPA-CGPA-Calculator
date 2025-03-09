@@ -31,8 +31,9 @@ app.get('/api/open-url', async (req, res) => {
                 '--disable-setuid-sandbox',
                 '--disable-gpu',
                 '--disable-dev-shm-usage',
-                '--single-process'],
-      executablePath: process.env.CHROME_BIN || null 
+                '--single-process',
+                '--no-zygote'],
+      
     });
 
     // Close the default blank tab if it exists
