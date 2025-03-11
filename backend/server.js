@@ -26,8 +26,8 @@ app.get('/api/open-url', async (req, res) => {
   try {
     // Initialize the browser globally
     browser = await puppeteer.launch({
-        headless: true,  // Use 'true' instead of 'new' for better compatibility
-  
+       headless: true,
+  executablePath: chromium.path,
   args: [
     '--no-sandbox',
     '--disable-setuid-sandbox',
