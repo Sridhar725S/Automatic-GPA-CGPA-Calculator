@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: puppeteer-app
+    env: node
+    region: oregon
+    buildCommand: "cd frontend && npm install && npx ng build --configuration production --output-path ../dist && cd ../backend && npm install"
+    startCommand: "node server.js"
+    plan: free
+    envVars:
+      - key: MONGO_URI
+        sync: false
