@@ -26,15 +26,15 @@ app.get('/api/open-url', async (req, res) => {
   try {
     // Initialize the browser globally
     browser = await puppeteer.launch({
-       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
-    headless: true,
+       headless: 'new',
     args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-accelerated-2d-canvas",
-        "--disable-gpu"
-    ],
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-gpu',
+        '--disable-dev-shm-usage',
+        '--single-process',
+        '--no-zygote'
+    ]
         
     })
 
