@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "postinstall": "apt-get update && apt-get install -y wget && npx puppeteer browsers install chrome",
+    "postinstall": "apt-get update && apt-get install -y libnss3 && puppeteer install --unsafe-perm=true && npx puppeteer browsers install chrome",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
