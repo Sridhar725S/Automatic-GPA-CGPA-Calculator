@@ -4,13 +4,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "postinstall": "puppeteer install --unsafe-perm=true && npx puppeteer browsers install chrome",
+    "postinstall": "apt-get update && apt-get install -y wget && npx puppeteer browsers install chrome",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
