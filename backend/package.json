@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "build": "npm install && npm install puppeteer --no-optional",
-    "postinstall": "npx playwright install --with-deps",
+    "postinstall": "PLAYWRIGHT_BROWSERS_PATH=/opt/render/project/playwright npx playwright install --with-deps",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
