@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "build": "npm install && npm install puppeteer --no-optional",
-    "postinstall": "apt-get update && apt-get install -y chromium",
+    "postinstall": "npx playwright install --with-deps",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -14,8 +14,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^8.12.1",
-    "puppeteer": "^20.8.1",
-    "puppeteer-core": "^20.8.1",
+    "playwright": "^1.44.0",
     "readline": "^1.3.0",
     
   }
