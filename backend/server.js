@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const puppeteer = require('puppeteer-core');
-const chromium = require('chrome-aws-lambda');
+const { chromium } = require('playwright'); 
 const clickRoutes = require('./routes/clickRoutes');
 const ClickCount = require('./models/ClickCount');
 const path = require('path');
@@ -26,8 +25,8 @@ let browser; // Puppeteer browser instance
 app.get('/api/open-url', async (req, res) => {
   try {
     // Initialize the browser globally
-    browser = await puppeteer.launch({
-      executablePath: process.env.CHROME_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
+    browser = await chromium.launch({
+      
     headless: true,
     args: [
       '--no-sandbox',
