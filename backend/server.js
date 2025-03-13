@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const { chromium } = require('playwright'); 
+const puppeteer = require('puppeteer');
 const clickRoutes = require('./routes/clickRoutes');
 const ClickCount = require('./models/ClickCount');
 const path = require('path');
@@ -25,7 +25,7 @@ let browser; // Puppeteer browser instance
 app.get('/api/open-url', async (req, res) => {
   try {
     // Initialize the browser globally
-    browser = await chromium.launch({
+    browser = await puppeteer.launch({
       
     headless: true,
     args: [
