@@ -27,7 +27,7 @@ app.get('/api/open-url', async (req, res) => {
     // Initialize the browser globally
     browser = await puppeteer.launch({
       
-    headless: true,
+    headless: false,
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
