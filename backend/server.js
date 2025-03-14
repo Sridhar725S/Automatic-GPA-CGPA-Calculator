@@ -24,12 +24,13 @@ let browser; // Puppeteer browser instance
 // Puppeteer route to open the page
 app.get('/api/open-url', async (req, res) => {
   try {
+      const browserFetcher = puppeteer.createBrowserFetcher();
+const revisionInfo = await browserFetcher.download('134.0.6998.35');
     // Initialize the browser globally
     browser = await puppeteer.launch({
       
     headless: "new",
-    executablePath: '/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome',
-    args: [
+    executablePath: revisionInfo.executablePath,
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-gpu',
