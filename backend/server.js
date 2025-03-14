@@ -36,8 +36,8 @@ app.get('/api/open-url', async (req, res) => {
       '--disable-dev-shm-usage',
       '--single-process',
       '--no-zygote'
-    ]
-        
+    ],
+    ignoreDefaultArgs: ['--disable-extensions'],
     })
 
     // Close the default blank tab if it exists
