@@ -31,6 +31,7 @@ const revisionInfo = await browserFetcher.download('134.0.6998.35');
       
     headless: "new",
     executablePath: revisionInfo.executablePath,
+    args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-gpu',
