@@ -8,7 +8,8 @@ npm install
 PUPPETEER_CACHE_DIR="$HOME/.cache/puppeteer"
 
 echo "🔄 Ensuring Puppeteer is installed..."
-npm install puppeteer
+PUPPETEER_SKIP_DOWNLOAD=true npm install puppeteer
+
 
 # Download Chromium if not already cached
 if [ ! -d "$PUPPETEER_CACHE_DIR" ]; then
