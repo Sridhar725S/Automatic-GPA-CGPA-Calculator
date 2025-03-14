@@ -27,7 +27,7 @@ app.get('/api/open-url', async (req, res) => {
   try {
     if (!browser) {
       browser = await puppeteer.launch({
-        headless: "new",
+        headless: false,
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
         executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined, // Use auto-detected Chromium
       });
