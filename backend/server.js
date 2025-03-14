@@ -26,8 +26,8 @@ app.get('/api/open-url', async (req, res) => {
   try {
     // Initialize the browser globally
      headless: "new",
-            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || "/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome",
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || "/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome",
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     // Close the default blank tab if it exists
