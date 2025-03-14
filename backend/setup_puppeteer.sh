@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+echo "🔄 Installing system dependencies..."
+apt-get update
+apt-get install -y libnss3 libatk1.0-0 libx11-xcb1 libasound2 libgbm1
+
 echo "🔄 Installing project dependencies..."
 npm install
 
@@ -9,7 +13,6 @@ PUPPETEER_CACHE_DIR="$HOME/.cache/puppeteer"
 
 echo "🔄 Ensuring Puppeteer is installed..."
 PUPPETEER_SKIP_DOWNLOAD=true npm install puppeteer
-
 
 # Download Chromium if not already cached
 if [ ! -d "$PUPPETEER_CACHE_DIR" ]; then
