@@ -26,19 +26,18 @@ app.get('/api/open-url', async (req, res) => {
   try {
     // Initialize the browser globally
     browser = await puppeteer.launch({
-      
-    headless: "new",
-    executablePath: '/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome',
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-gpu',
-      '--disable-dev-shm-usage',
-      '--single-process',
-      '--no-zygote'
-    ],
-    ignoreDefaultArgs: ['--disable-extensions'],
-    })
+     headless: "new",
+      executablePath: '/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome', // Use the correct path
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-gpu',
+        '--disable-dev-shm-usage',
+        '--single-process',
+        '--no-zygote'
+      ],
+      ignoreDefaultArgs: ['--disable-extensions'],
+    });
 
     // Close the default blank tab if it exists
     const pages = await browser.pages();
