@@ -25,17 +25,9 @@ let browser; // Puppeteer browser instance
 app.get('/api/open-url', async (req, res) => {
   try {
     // Initialize the browser globally
-    browser = await puppeteer.launch({
      headless: "new",
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-gpu',
-        '--disable-dev-shm-usage',
-        '--single-process',
-        '--no-zygote'
-      ],
-      ignoreDefaultArgs: ['--disable-extensions'],
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || "/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome",
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     // Close the default blank tab if it exists
