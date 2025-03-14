@@ -24,17 +24,9 @@ let browser; // Puppeteer browser instance
 // Puppeteer route to open the page
 app.get('/api/open-url', async (req, res) => {
   try {
-      const chromePath = '/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome';
-
-    // Verify if the file exists
-    const fs = require('fs');
-    if (!fs.existsSync(chromePath)) {
-      throw new Error(`Chrome executable not found at ${chromePath}`);
-    }
     // Initialize the browser globally
     browser = await puppeteer.launch({
      headless: "new",
-      executablePath: chromePath, // Use the correct path
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
