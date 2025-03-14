@@ -8,6 +8,7 @@ const path = require('path');
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
+const path = process.env.PUPPETEER_EXECUTABLE_PATH || "/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome";
 
 app.use(express.json());
 app.use(cors());
@@ -26,11 +27,9 @@ app.get('/api/open-url', async (req, res) => {
   try {
     // Initialize the browser globally
      const browser = await puppeteer.launch({
-    headless: "new",
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH 
-        ? process.env.PUPPETEER_EXECUTABLE_PATH 
-        : "/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    headless: true,
+      executablePath: path,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"]
 });
 
     // Close the default blank tab if it exists
