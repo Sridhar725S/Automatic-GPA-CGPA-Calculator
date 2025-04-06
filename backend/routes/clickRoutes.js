@@ -57,7 +57,8 @@ const subjects = [
     { code: 'CCW332', name: 'Digital Marketing', credits: 3 },
     { code: 'OCE351', name: 'Environmental and Social Impact Assessment', credits: 3 },
     { code: 'MX3083', name: 'Film Appreciation', credits: 0 },
-    { code: 'MX3088', name: 'State, Nation Building and Politics in India', credits: 0 }
+    { code: 'MX3088', name: 'State, Nation Building and Politics in India', credits: 0 },
+    { code: 'SB8026', name: 'Robotic Process Automation Development', credits: 1 }
 ];
 
 router.get('/subject/:code', (req, res) => {
