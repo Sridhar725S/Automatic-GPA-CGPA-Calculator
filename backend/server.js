@@ -47,6 +47,14 @@ app.get('/api/open-url', async (req, res) => {
     if (pages.length > 0) {
       await pages[0].close();
     }
+      // Wait for CAPTCHA image and take screenshot
+    const captchaSelector = 'img.small';
+    await page.waitForSelector(captchaSelector);
+    const captchaPath = path.join(__dirname, 'captcha', 'captcha.png');
+    const captchaElement = await page.$(captchaSelector);
+    await captchaElement.screenshot({ path: captchaPath });
+
+    return res.json({ captchaUrl: '/captcha/captcha.png?_=' + Date.now() });
     res.json({ message: 'Page opened successfully' });
   } catch (error) {
     console.error('Error opening the page:', error.message);
