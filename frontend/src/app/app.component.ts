@@ -388,7 +388,7 @@ captureScreenshot(container: HTMLElement) {
     link.download = 'screenshot.png';
     link.href = dataUrl;
     link.click();
-  }).catch(err: any => {
+  }).catch((err: any) => {
     console.error('Screenshot error:', err);
   });
 }
