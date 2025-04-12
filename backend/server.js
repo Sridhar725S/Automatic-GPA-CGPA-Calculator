@@ -5,6 +5,8 @@ const puppeteer = require('puppeteer');
 const clickRoutes = require('./routes/clickRoutes');
 const ClickCount = require('./models/ClickCount');
 const path = require('path');
+const bodyParser = require('body-parser');
+const fs = require('fs');
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +14,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
+app.use('/captcha', express.static(path.join(__dirname, 'captcha')));
+
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('✅ MongoDB connected'))
@@ -49,6 +54,43 @@ app.get('/api/open-url', async (req, res) => {
   }
 });
 
+app.post('/submit-login', async (req, res) => {
+  console.log('Received login request!');
+  try {
+    const { username, password, captcha } = req.body;
+    console.log('Typing into login form...');
+
+    await page.type('#register_no', username);
+    await page.type('#dob', password);
+    await page.type('#security_code_student', captcha);
+    const buttons = await page.$$('input#gos'); // Get ALL with ID 'gos'
+if (buttons.length >= 2) {
+  await buttons[1].click(); // Index 1 = second button
+  console.log('🚀 Clicked the second #gos button!');
+} else {
+  console.error('💥 Not enough #gos buttons found!');
+}
+// Wait for possible failure alert popup (inside page)
+const failPopup = await page.$('#popup_message_id'); // change to actual popup selector
+if (failPopup) {
+  const msg = await page.evaluate(el => el.textContent, failPopup);
+  throw new Error(`Login failed: ${msg}`);
+}
+  // Step 3: Wait for result page link to load
+  await page.waitForSelector('#tab4', { visible: true, timeout: 10000 });
+  console.log('📄 Exam Results tab loaded');
+
+  // Step 4: Click the "Exam Results" tab
+  await page.click('#tab4');
+  console.log('📊 Navigated to Exam Results page');
+
+    res.json({ status: 'success', message: 'Login submitted!' });
+  } catch (err) {
+    console.error('🔥 Error in automation:', err.message);
+    res.status(500).json({ status: 'fail', message: err.message });
+  }
+});
+
 // Puppeteer route to scrape data after reaching the result page
 app.get('/api/scrape-data', async (req, res) => {
   try {
@@ -64,9 +106,19 @@ app.get('/api/scrape-data', async (req, res) => {
         return rows.map((row) => {
           const cells = Array.from(row.querySelectorAll('th, td'));
           return cells.map((cell) => cell.innerText.trim());
+            .filter(text => text !== '');
         });
       });
     });
+    function extractStudentDetails(rawData) {
+      const flat = rawData.flat(2).join(' '); // Flatten and clean the text
+      const registerNumber = flat.match(/Register Number[:\s]*([\w\d]+)/i)?.[1] || '';
+      const name = flat.match(/Name[:\s]*([A-Za-z]+)/i)?.[1] || '';
+      const institution = flat.match(/Institution[:\s]*([\w\d]+)/i)?.[1] || '';
+      const branch = flat.match(/Branch[:\s]*([A-Za-z0-9]+)/i)?.[1] || '';
+      return { registerNumber, name, institution, branch };
+    }
+    const studentDetails = extractStudentDetails(tableData);
 
     const semesters = {};
     tableData.forEach(arr => {
