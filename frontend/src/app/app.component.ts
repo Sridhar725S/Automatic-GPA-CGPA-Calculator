@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ClickService } from './services/click.service';
+// @ts-ignore
 import { toPng } from 'html-to-image';
 
 interface Course {
@@ -387,11 +388,11 @@ captureScreenshot(container: HTMLElement) {
     link.download = 'screenshot.png';
     link.href = dataUrl;
     link.click();
-  }).catch(err => {
+  }).catch(err: any => {
     console.error('Screenshot error:', err);
   });
 }
 
 }
 
-}
+
