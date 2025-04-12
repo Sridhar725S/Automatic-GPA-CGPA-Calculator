@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ClickService } from './services/click.service';
+import { toPng } from 'html-to-image';
 
 interface Course {
   code: string;
@@ -29,11 +30,15 @@ export class AppComponent implements OnInit {
   courses: Course[] = [];
   grades: string[] = ['O', 'A+', 'A', 'B+', 'B', 'C', 'U'];
   gpa: number | null = null;
-
+  studentDetails: any = null;
   semesterCount: number = 0;
   semesters: Semester[] = [];
   cgpa: number | null = null;
-
+  username = '';
+  password = '';
+  captcha = '';
+  captchaUrl = '';
+  loggedIn = false;
   isPageOpened: boolean = false;
   isAutomated: boolean = false;
   isScrapeDisabled: boolean = false;
@@ -167,10 +172,45 @@ updateSemesters() {
       .then(data => {
         console.log('Page Opened:', data);
         this.isPageOpened = true;
+        this.captchaUrl = 'https://automatic-gpa-cgpa-calculator.onrender.com/captcha/captcha.png';
       })
       .catch(error => console.error('Error opening page:', error));
   }
 
+  async submitLogin() {
+    const body = {
+      username: this.username,
+      password: this.password,
+      captcha: this.captcha
+    };
+  
+    try {
+      const response: any = await this.http.post('https://automatic-gpa-cgpa-calculator.onrender.com/submit-login', body).toPromise();
+      if (response.status === 'success') {
+        this.loggedIn = true;
+        alert('✅ Login successful!');
+      } else {
+        // Catch any unexpected failure with valid response
+        alert('⚠️ Invalid credentials or CAPTCHA!');
+        this.cancelPopup();
+        await this.http.get('https://automatic-gpa-cgpa-calculator.onrender.com/api/close-tab').toPromise();
+      }
+    } catch (error: any) {
+      console.error('🔥 Login error:', error);
+      
+      // Check if it's a timeout or 500 server error
+      if (error.status === 500) {
+        alert('❌ Invalid credentials or CAPTCHA!');
+      } else if (error.name === 'TimeoutError') {
+        alert('⏱️ Login timeout! Try again.');
+      } else {
+        alert('😵 Unexpected error during login!');
+      }
+  
+      this.cancelPopup();
+      await this.http.get('https://automatic-gpa-cgpa-calculator.onrender.com/api/close-tab').toPromise();
+    }
+  }
   // Initiate data scraping and fetch available semesters
   scrapeData() {
     this.isAutomated = true;
@@ -181,6 +221,7 @@ updateSemesters() {
         console.log('Scraped Data:', data);
         this.availableSemesters = data.availableSemesters;
         this.semesterData = data.semesterData;
+        this.parseScrapedData(data);
         // Close the automated tab
       fetch('https://automatic-gpa-cgpa-calculator.onrender.com/api/close-tab')
       .then(() => console.log('Automated tab closed.'))
@@ -193,6 +234,18 @@ updateSemesters() {
         this.isAutomated = false;
         this.isScrapeDisabled = false;
       });
+  }
+
+  parseScrapedData(data: any) {
+    console.log('📦 Full scrape response:', data);
+  
+    // 👇 Check if data exists first
+    if (data && data.studentDetails) {
+      this.studentDetails = data.studentDetails;
+      console.log('✅ Parsed student details:', this.studentDetails);
+    } else {
+      console.warn('⚠️ studentDetails missing in response object:', data);
+    }
   }
 
   // Automatically fill course data when a semester is selected
@@ -231,4 +284,114 @@ handleSemesterSelection() {
 
     this.cgpa = totalCredits ? weightedGpa / totalCredits : null;
   }
+  cancelPopup() {
+    const confirmClose = confirm('Are you sure you want to cancel the login?');
+    if (confirmClose) {
+      this.isPageOpened = false;
+      this.captchaUrl = '';
+      this.username = '';
+      this.password = '';
+      this.captcha = '';
+    }
+    fetch('https://automatic-gpa-cgpa-calculator.onrender.com/api/close-tab')
+      .then(() => console.log('Automated tab closed.'))
+      .catch(error => console.error('Error closing tab:', error));
+  }
+  printContainer(container: HTMLElement) {
+    const cloned = container.cloneNode(true) as HTMLElement;
+  
+    // Replace form elements with styled span elements for visual parity
+    const inputsAndSelects = cloned.querySelectorAll('input, select');
+    inputsAndSelects.forEach(el => {
+      const span = document.createElement('span');
+      span.textContent = (el as HTMLInputElement).value || (el as HTMLSelectElement).value;
+      span.style.display = 'inline-block';
+      span.style.padding = '6px 10px';
+      span.style.border = '1px solid #ccc';
+      span.style.borderRadius = '6px';
+      span.style.backgroundColor = '#f0f0f0';
+      span.style.margin = '4px 0';
+      span.style.minWidth = '100px';
+      el.parentNode?.replaceChild(span, el);
+    });
+  
+    const popup = window.open('', '_blank', 'width=900,height=800');
+    if (popup) {
+      popup.document.open();
+      popup.document.write(`
+        <html>
+          <head>
+            <title>📄 AUTOMATIC GPA AND CGPA CALCULATOR</title>
+             <style>
+  body {
+    font-family: "Segoe UI", Roboto, sans-serif;
+    padding: 2rem;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+  }
+
+  h2, h3 {
+    color: #2d89ef;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+    text-align: center;
+  }
+
+  p, span, div {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  p {
+    color: rgb(55, 134, 224);
+    text-align: center;
+    font-size: 20px;
+    font-weight: Bold;
+  }
+
+  .box {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: #fafafa;
+  }
+  button, .no-print {
+    display: none !important;
+  }
+</style>
+
+          </head>
+          <body onload="window.print(); window.close();">
+            <div class="box">
+              ${cloned.innerHTML}
+            </div>
+          </body>
+        </html>
+      `);
+      popup.document.close();
+    }
+  }
+  
+  
+
+captureScreenshot(container: HTMLElement) {
+  toPng(container, {
+    cacheBust: true,
+    backgroundColor: 'white',
+    pixelRatio: 2,
+  }).then((dataUrl: string) => {
+    const link = document.createElement('a');
+    link.download = 'screenshot.png';
+    link.href = dataUrl;
+    link.click();
+  }).catch(err => {
+    console.error('Screenshot error:', err);
+  });
+}
+
+}
+
 }
