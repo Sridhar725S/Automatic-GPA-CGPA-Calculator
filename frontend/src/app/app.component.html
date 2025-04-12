@@ -34,8 +34,8 @@
       </option>
     </select>
   </div>
-  <button disabled (click)="openPage()" *ngIf="!isPageOpened && !isAutomated">Open URL</button>
-  <button disabled *ngIf="isPageOpened && !isAutomated">URL Opened</button>
+  <button  (click)="openPage()" *ngIf="!isPageOpened && !isAutomated">Open URL</button>
+  <button  *ngIf="isPageOpened && !isAutomated">URL Opened</button>
 
    <!-- POPUP MODAL -->
 <div *ngIf="!loggedIn && isPageOpened" class="modal-overlay">
@@ -61,7 +61,7 @@
   </div>
   
   <button (click)="scrapeData()" [disabled]="isScrapeDisabled"*ngIf="isPageOpened && !isAutomated">Automate</button>
-  <button disabled *ngIf="isAutomated">Scraping...</button>
+  <button  *ngIf="isAutomated">Scraping...</button>
   
   <button (click)="printContainer(gpaContainer)">🖨️ Print GPA</button>
     <button (click)="captureScreenshot(gpaContainer)">📸 Screenshot GPA</button>
