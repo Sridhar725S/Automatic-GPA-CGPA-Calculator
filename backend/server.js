@@ -105,8 +105,8 @@ app.get('/api/scrape-data', async (req, res) => {
         const rows = Array.from(table.querySelectorAll('tr'));
         return rows.map((row) => {
           const cells = Array.from(row.querySelectorAll('th, td'));
-          return cells.map((cell) => cell.innerText.trim());
-            .filter(text => text !== '');
+          return cells.map((cell) => cell.innerText.trim())
+        .filter(text => text !== '');
         });
       });
     });
