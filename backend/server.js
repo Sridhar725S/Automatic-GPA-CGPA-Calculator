@@ -153,7 +153,8 @@ app.get('/api/scrape-data', async (req, res) => {
     res.json({
       message: 'Scraped data successfully',
       availableSemesters,
-      semesterData: semesters
+      semesterData: semesters,
+      studentDetails,
     });
 
   } catch (error) {
