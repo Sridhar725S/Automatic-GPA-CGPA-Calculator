@@ -23,7 +23,7 @@
       <span class="info-value">{{ agpaClicks || 0 }}</span>
     </div>
 </div>
-<h2>GPA Calculator</h2>
+
   <!-- Semester Selection Dropdown -->
   <div *ngIf="availableSemesters.length > 0">
     <label for="semesterSelect">Select Semester:</label>
@@ -37,8 +37,42 @@
   <button disabled (click)="openPage()" *ngIf="!isPageOpened && !isAutomated">Open URL</button>
   <button disabled *ngIf="isPageOpened && !isAutomated">URL Opened</button>
 
+   <!-- POPUP MODAL -->
+<div *ngIf="!loggedIn && isPageOpened" class="modal-overlay">
+  <div class="modal-content">
+    <button class="close-btn" (click)="cancelPopup()">×</button>
+    <h2>🔐 Login Required</h2>
+    <input [(ngModel)]="username" placeholder="Username" />
+    <input [(ngModel)]="password" type="password" placeholder="Password" />
+    
+    <img [src]="captchaUrl" alt="CAPTCHA" class="captcha-img" />
+    <input [(ngModel)]="captcha" placeholder="Enter CAPTCHA" />
+
+    <div class="modal-buttons">
+      <button (click)="submitLogin()">Submit</button>
+
+    </div>
+  </div>
+</div>
+
+  
+  <div *ngIf="loggedIn">
+    <p>✅ Logged in successfully!</p>
+  </div>
+  
   <button (click)="scrapeData()" [disabled]="isScrapeDisabled"*ngIf="isPageOpened && !isAutomated">Automate</button>
   <button disabled *ngIf="isAutomated">Scraping...</button>
+  
+  <button (click)="printContainer(gpaContainer)">🖨️ Print GPA</button>
+    <button (click)="captureScreenshot(gpaContainer)">📸 Screenshot GPA</button>
+  <div #gpaContainer>
+  <h2>GPA Calculator</h2>
+  <p *ngIf="studentDetails">
+    <strong>Register Number:</strong> {{ studentDetails.registerNumber }}<br />
+    <strong>Name:</strong> {{ studentDetails.name }}<br />
+    <strong>Institution:</strong> {{ studentDetails.institution }}<br />
+    <strong>Branch:</strong> {{ studentDetails.branch }}
+  </p>
   <label>Number of Subjects:</label>
   <input type="number" [(ngModel)]="subjectCount" (change)="updateCourses()" />
 
@@ -62,9 +96,18 @@
 
   <button (click)="calculateGPA(); trackClick('GPA')">Calculate GPA</button>
   <p *ngIf="gpa !== null">GPA: {{ gpa.toFixed(3) }}</p>
-
+  </div>
   <hr />
+  <button (click)="printContainer(cgpaContainer)">🖨️ Print CGPA</button>
+    <button (click)="captureScreenshot(cgpaContainer)">📸 Screenshot CGPA</button>
+  <div #cgpaContainer>
   <h2>CGPA Calculator</h2>
+    <p *ngIf="studentDetails">
+    <strong>Register Number:</strong> {{ studentDetails.registerNumber }}<br />
+    <strong>Name:</strong> {{ studentDetails.name }}<br />
+    <strong>Institution:</strong> {{ studentDetails.institution }}<br />
+    <strong>Branch:</strong> {{ studentDetails.branch }}
+  </p>
   <label>Number of Semesters:</label>
   <input type="number" [(ngModel)]="semesterCount" (change)="updateSemesters()" />
 
