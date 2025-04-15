@@ -125,14 +125,17 @@ app.get('/api/scrape-data', async (req, res) => {
         });
       });
     });
-    function extractStudentDetails(rawData) {
-      const flat = rawData.flat(2).join(' '); // Flatten and clean the text
-      const registerNumber = flat.match(/Register Number[:\s]*([\w\d]+)/i)?.[1] || '';
-      const name = flat.match(/Name[:\s]*([A-Za-z]+)/i)?.[1] || '';
-      const institution = flat.match(/Institution[:\s]*([\w\d]+)/i)?.[1] || '';
-      const branch = flat.match(/Branch[:\s]*([A-Za-z0-9]+)/i)?.[1] || '';
-      return { registerNumber, name, institution, branch };
-    }
+
+    function extractStudentDetails(data) {
+      const [firstEntry] = data; // Extract first level of the data
+    
+      return {
+        registerNumber: firstEntry[0][1],
+        name: firstEntry[1][1],
+        institution: firstEntry[2][1],
+        branch: firstEntry[3][1],
+      };
+    } 
     const studentDetails = extractStudentDetails(tableData);
 
     const semesters = {};
