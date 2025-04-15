@@ -168,6 +168,7 @@ updateSemesters() {
 
   // Automatically open the GPA page
   openPage() {
+    alert(" ✅ You have clicked the 'Open URL' button.\n⌛ Please wait for a response.");
     fetch('https://automatic-gpa-cgpa-calculator.onrender.com/api/open-url')
       .then(response => response.json())
       .then(data => {
