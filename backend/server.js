@@ -43,7 +43,7 @@ app.get('/api/open-url', async (req, res) => {
      
     // Open the required page
     page = await browser.newPage();
-    await page.goto('https://coe1.annauniv.edu/home/index.php', { waitUntil: 'domcontentloaded' });
+    await page.goto('https://coe.annauniv.edu/home/', { waitUntil: 'domcontentloaded' });
     if (pages.length > 0) {
       await pages[0].close();
     }
