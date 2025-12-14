@@ -47,18 +47,23 @@ app.get('/api/open-url', async (req, res) => {
     if (pages.length > 0) {
       await pages[0].close();
     }
-      // Wait for CAPTCHA image and take screenshot
-    const captchaSelector = 'img.small';
-await page.waitForSelector(captchaSelector);
+      
+    // Wait until at least one captcha image is present
+await page.waitForSelector('img#capt');
+
+// Get ALL captcha images with same id
+const captchaImages = await page.$$('img#capt');
 
 const captchaDir = path.join(__dirname, 'captcha');
 if (!fs.existsSync(captchaDir)) {
   fs.mkdirSync(captchaDir, { recursive: true });
 }
 
-const captchaPath = path.join(captchaDir, 'captcha.png');
-const captchaElement = await page.$(captchaSelector);
-await captchaElement.screenshot({ path: captchaPath });
+// Select the SECOND captcha (index starts from 0)
+const secondCaptcha = captchaImages[1];
+
+const captchaPath = path.join(__dirname, 'captcha', 'captcha.png');
+await secondCaptcha.screenshot({ path: captchaPath });
 
 return res.json({ captchaUrl: '/captcha/captcha.png?_=' + Date.now() });
 
@@ -80,7 +85,10 @@ app.post('/submit-login', async (req, res) => {
     await page.type('#security_code_student', captcha);
     const buttons = await page.$$('input#gos'); // Get ALL with ID 'gos'
 if (buttons.length >= 2) {
-  await buttons[1].click(); // Index 1 = second button
+  await Promise.all([
+  page.waitForNavigation({ waitUntil: 'networkidle0' }),
+  buttons[1].click()
+]); // Index 1 = second button
   console.log('🚀 Clicked the second #gos button!');
 } else {
   console.error('💥 Not enough #gos buttons found!');
