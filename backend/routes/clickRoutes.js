@@ -58,7 +58,17 @@ const subjects = [
     { code: 'OCE351', name: 'Environmental and Social Impact Assessment', credits: 3 },
     { code: 'MX3083', name: 'Film Appreciation', credits: 0 },
     { code: 'MX3088', name: 'State, Nation Building and Politics in India', credits: 0 },
-    { code: 'SB8026', name: 'Robotic Process Automation Development', credits: 1 }
+    { code: 'SB8026', name: 'Robotic Process Automation Development', credits: 1 },
+    { code: 'GE3791', name: 'Human Values and Ethics', credits: 2 },
+    { code: 'IT3711', name: 'Summer internship', credits: 2 },
+    { code: 'IT3811', name: 'Project Work/Intership', credits: 10 },
+    { code: 'CCS345', name: 'Ethics and AI', credits: 3 },
+    { code: 'CCS346', name: 'Exploratory Data Analysis', credits: 3 },
+    { code: 'AI3021', name: 'IT in Agricultural System', credits: 3 },
+    { code: 'OFD352', name: 'Traditional Indian Foods', credits: 3 },
+    { code: 'OHS352', name: 'Project Report Writing', credits: 3 },
+    { code: 'GE3754', name: 'Human Resource Management', credits: 3 }
+
 ];
 
 router.get('/subject/:code', (req, res) => {
