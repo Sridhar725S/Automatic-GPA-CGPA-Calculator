@@ -19,7 +19,7 @@ const subjects = [
     { code: 'GE3451', name: 'Environmental Sciences and Sustainability', credits: 2 },
     { code: 'CS3461', name: 'Operating Systems Laboratory', credits: 1.5 },
     { code: 'CS3481', name: 'Database Management Systems Laboratory', credits: 1.5 },
-    { code: 'NM1022', name: 'Naan Mudhalvan Project Development', credits: 1 },
+    { code: 'NM1022', name: 'Naan Mudhalvan Project Development', credits: 2 },
     { code: 'HS3152', name: 'Professional English - I', credits: 3 },
     { code: 'MA3151', name: 'Matrices and Calculus', credits: 4 },
     { code: 'PH3151', name: 'Engineering Physics', credits: 3 },
@@ -58,7 +58,7 @@ const subjects = [
     { code: 'OCE351', name: 'Environmental and Social Impact Assessment', credits: 3 },
     { code: 'MX3083', name: 'Film Appreciation', credits: 0 },
     { code: 'MX3088', name: 'State, Nation Building and Politics in India', credits: 0 },
-    { code: 'SB8026', name: 'Robotic Process Automation Development', credits: 1 },
+    { code: 'SB8026', name: 'Robotic Process Automation Development', credits: 2 },
     { code: 'GE3791', name: 'Human Values and Ethics', credits: 2 },
     { code: 'IT3711', name: 'Summer internship', credits: 2 },
     { code: 'IT3811', name: 'Project Work/Intership', credits: 10 },
@@ -67,7 +67,8 @@ const subjects = [
     { code: 'AI3021', name: 'IT in Agricultural System', credits: 3 },
     { code: 'OFD352', name: 'Traditional Indian Foods', credits: 3 },
     { code: 'OHS352', name: 'Project Report Writing', credits: 3 },
-    { code: 'GE3754', name: 'Human Resource Management', credits: 3 }
+    { code: 'GE3754', name: 'Human Resource Management', credits: 3 },
+    { code: 'SB8015', name: 'Cyber Security', credits: 2 }
 
 ];
 
